@@ -1,0 +1,48 @@
+body {
+  width: 800px;
+  border: 1px solid gray;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+/* [header] */
+header {
+  display: flex;
+}
+
+.score, .start {
+  display: inline-block;
+  font-size: 60px;
+  width: 50%;
+  text-align: center;
+  padding: 10px;
+  margin: 10px;
+}
+
+.start {
+  background-color: #ECEBEA; 
+  box-shadow: 3px 3px 5px #CBC8C8;
+  border: 1px solid #DCD9D8;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.score {
+  background-color: #E6FCF8;
+  box-shadow: 3px 3px 5px #CFEAE5;
+  border: 1px solid #C5DAD7;
+  border-radius: 5px;
+}
+
+/* [section] */
+section ul {
+  margin: 10px;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+section li {
+  list-style: none;
+  margin: 5px;
+}
