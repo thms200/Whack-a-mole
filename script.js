@@ -1,32 +1,76 @@
-let indexArr = [];
-let randomIndex;
+let locationArr = [];
+let randomNumer;
 let li = document.querySelectorAll("li");
 
-//9개의 위치를 랜덤으로 정하기
-function selectLocation () {
-  let i = 0;
-  while (indexArr.length < 9) {
-    randomIndex = Math.floor(Math.random() * 9);
-    if(!indexArr.includes(randomIndex)) {
-      indexArr.push(randomIndex);
+let clickNumber = 0;
+let repeatGame = null;
+let addHoleValue = null;
+
+let scoreValue = 0;
+let score = document.querySelector(".score");
+
+let start = document.querySelector(".start");
+start.addEventListener("click", function () {
+  start.innerHTML = "Gaming.."
+
+  function makeLocation () {
+
+    function makeRandom (arr, number) {
+      let i = 0;
+      while (arr.length < 2) {
+        number = Math.floor(Math.random() * 9);
+        if(!arr.includes(number)) {
+          arr.push(number);
+        };
+        i++;
+      };
+    };
+
+    if(locationArr.length === 0) {
+      makeRandom(locationArr, randomNumer);
+    } else {
+      locationArr.shift();
+      makeRandom(locationArr, randomNumer);
+    };
+
+    console.log(locationArr);
+  }
+
+  function addMole () {
+    clickNumber++;
+    li[locationArr[0]].firstElementChild.setAttribute("src", "mole.jpg");
+    li[locationArr[0]].classList.add("mole");
+  }
+
+  function addHole () {
+    li[locationArr[0]].firstElementChild.setAttribute("src", "hole.jpg");
+    li[locationArr[0]].classList.remove("mole");
+    if(clickNumber < 10) {
+      repeatGame();
+    };
+  }
+
+  (repeatGame = function playGame () { 
+    makeLocation();
+    setTimeout(addMole, 1000);
+    addHoleValue = setTimeout(addHole, 4000);
+  })();
+});
+
+for(let i = 0 ; i < li.length; i++) {
+  li[i].addEventListener("click", function () {
+    if(event.currentTarget.classList.contains("mole")) {
+      event.currentTarget.firstChild.setAttribute("src", "hole.jpg");
+      event.currentTarget.classList.remove("mole");
+      if(addHoleValue !== null) {
+        clearTimeout(addHoleValue);
+        if(clickNumber < 10) {
+          setTimeout(repeatGame,0)
+        }
+      }
+      scoreValue += 10;
     }
-    i++;
-  }
+  })
 }
 
-//3초마다 두더지 나오기 (단, 첫번째 두더지는 1초뒤에 실행)
-function playGame () {
-  selectLocation();
-  setTimeout(function() {
-    li[indexArr[0]].firstElementChild.setAttribute("src", "mole.jpg")
-  },1000);
 
-  for(let i = 1; i < li.length; i++) {
-    (function(j){
-      setTimeout(function() {
-        li[indexArr[j]].firstElementChild.setAttribute("src", "mole.jpg")
-        console.log(i)
-      }, j * 3000);
-    })(i)
-  }
-}
